@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rifa Dark Green</title>
+    <meta name="description" content="Rifa digital con Khipu y panel administrador" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="background-glow background-glow-left"></div>
+    <div class="background-glow background-glow-right"></div>
+
+    <header class="topbar container">
+      <div class="brand-wrap">
+        <div class="brand-dot"></div>
+        <span class="brand">Rifa Dark Green</span>
+      </div>
+      <nav class="top-links">
+        <a class="ghost-btn" href="#compra">Comprar</a>
+        <a class="ghost-btn" href="#admin">Administrador</a>
+      </nav>
+    </header>
+
+    <main class="container page">
+      <section class="hero card">
+        <div class="hero-copy">
+          <span class="eyebrow">Rifa digital + Khipu + Panel admin</span>
+          <h1>Compra uno o más números, registra tus datos y paga en una sola operación.</h1>
+          <p>
+            La rifa muestra disponibilidad en tiempo real. Puedes comprar varios números, pagar con Khipu o registrar ventas manuales desde el panel administrador.
+          </p>
+          <div class="hero-tags">
+            <span>OpenAI-style</span>
+            <span>Verde oscuro</span>
+            <span>$2.000 por número</span>
+          </div>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-card">
+            <strong id="statAvailable">--</strong>
+            <span>Disponibles</span>
+          </div>
+          <div class="stat-card">
+            <strong id="statReserved">--</strong>
+            <span>Reservados</span>
+          </div>
+          <div class="stat-card">
+            <strong id="statPaid">--</strong>
+            <span>Pagados</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="compra" class="content-grid">
+        <section class="card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Números</span>
+              <h2>Selecciona tus números</h2>
+            </div>
+            <button id="refreshBtn" class="ghost-btn small-btn">Actualizar</button>
+          </div>
+
+          <div class="legend">
+            <span><i class="legend-box available"></i> Disponible</span>
+            <span><i class="legend-box reserved"></i> Reservado</span>
+            <span><i class="legend-box paid"></i> Pagado</span>
+            <span><i class="legend-box selected"></i> Seleccionado</span>
+          </div>
+
+          <div id="numbersGrid" class="numbers-grid"></div>
+        </section>
+
+        <aside class="card sticky-card">
+          <div class="section-head compact">
+            <div>
+              <span class="section-kicker">Checkout</span>
+              <h2>Finaliza tu compra</h2>
+            </div>
+          </div>
+
+          <form id="checkoutForm" class="checkout-form">
+            <label>
+              Números seleccionados
+              <input id="selectedNumbers" type="text" placeholder="Ej. 7, 14, 22" readonly />
+            </label>
+
+            <label>
+              Nombre
+              <input id="name" type="text" placeholder="Tu nombre" required />
+            </label>
+
+            <label>
+              Celular
+              <input id="phone" type="tel" placeholder="+56 9 1234 5678" required />
+            </label>
+
+            <label>
+              Email
+              <input id="email" type="email" placeholder="correo@ejemplo.com" required />
+            </label>
+
+            <label>
+              RUT
+              <input id="payerRut" type="text" placeholder="12.345.678-9" />
+            </label>
+
+            <div class="summary-box summary-stack">
+              <div>
+                <span>Cantidad</span>
+                <strong id="ticketCount">0</strong>
+              </div>
+              <div>
+                <span>Valor por número</span>
+                <strong id="ticketPrice">$0</strong>
+              </div>
+              <div>
+                <span>Total</span>
+                <strong id="ticketTotal">$0</strong>
+              </div>
+              <div>
+                <span>Tiempo de reserva</span>
+                <strong>10 min</strong>
+              </div>
+            </div>
+
+            <button id="payBtn" type="submit" class="primary-btn">Reservar y pagar con Khipu</button>
+            <p id="statusMessage" class="status-message">Selecciona uno o más números para continuar.</p>
+          </form>
+        </aside>
+      </section>
+
+      <section id="admin" class="card admin-card">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">Administrador</span>
+            <h2>Revisar, exportar y asignar números manualmente</h2>
+          </div>
+        </div>
+
+        <div class="admin-layout">
+          <form id="adminLoginForm" class="admin-login">
+            <label>
+              Token administrador
+              <input id="adminToken" type="password" placeholder="Ingresa tu token admin" />
+            </label>
+            <button class="ghost-btn" type="submit">Conectar panel</button>
+            <p id="adminStatus" class="status-message">Ingresa el token para usar el panel.</p>
+          </form>
+
+          <div class="admin-actions">
+            <button id="adminRefreshBtn" class="ghost-btn small-btn" type="button">Actualizar panel</button>
+            <button id="exportCsvBtn" class="ghost-btn small-btn" type="button">Exportar CSV</button>
+          </div>
+
+          <div class="admin-panels">
+            <form id="manualAssignForm" class="checkout-form mini-form">
+              <h3>Asignación manual</h3>
+              <label>
+                Números
+                <input id="manualNumbers" type="text" placeholder="Ej. 3, 8, 15" required />
+              </label>
+              <label>
+                Nombre
+                <input id="manualName" type="text" required />
+              </label>
+              <label>
+                Celular
+                <input id="manualPhone" type="tel" required />
+              </label>
+              <label>
+                Email
+                <input id="manualEmail" type="email" required />
+              </label>
+              <label>
+                RUT
+                <input id="manualRut" type="text" />
+              </label>
+              <label>
+                Nota
+                <input id="manualNotes" type="text" placeholder="Venta directa, premio, reserva interna..." />
+              </label>
+              <button class="primary-btn" type="submit">Registrar sin Khipu</button>
+            </form>
+
+            <form id="releaseForm" class="checkout-form mini-form">
+              <h3>Liberar números</h3>
+              <label>
+                Números
+                <input id="releaseNumbers" type="text" placeholder="Ej. 3, 8, 15" required />
+              </label>
+              <button class="ghost-btn" type="submit">Dejar disponibles</button>
+            </form>
+          </div>
+
+          <div class="table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Número</th>
+                  <th>Estado</th>
+                  <th>Nombre</th>
+                  <th>Celular</th>
+                  <th>Email</th>
+                  <th>Canal</th>
+                  <th>Fecha pago</th>
+                </tr>
+              </thead>
+              <tbody id="adminTableBody">
+                <tr><td colspan="7" class="empty-row">Conecta el panel para ver la información.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="./app.js" type="module"></script>
+  </body>
+</html>
